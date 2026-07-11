@@ -13,8 +13,8 @@ const authController = {
       layout: false,
       title: 'Login',
       messages: {
-        error: req.flash('error'),
-        success: req.flash('success'),
+        error: res.locals.error_msg || res.locals.error || [],
+        success: res.locals.success_msg || [],
       },
     });
   },
@@ -74,8 +74,8 @@ const authController = {
       layout: false,
       title: 'Daftar Laundry Baru',
       messages: {
-        error: req.flash('error'),
-        success: req.flash('success'),
+        error: res.locals.error_msg || res.locals.error || [],
+        success: res.locals.success_msg || [],
       },
     });
   },
