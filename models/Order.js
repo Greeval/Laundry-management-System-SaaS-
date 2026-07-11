@@ -56,8 +56,8 @@ module.exports = (sequelize, DataTypes) => {
     Order.belongsTo(models.Tenant, { foreignKey: 'tenant_id', as: 'tenant' });
     Order.belongsTo(models.Customer, { foreignKey: 'customer_id', as: 'customer' });
     Order.belongsTo(models.User, { foreignKey: 'created_by', as: 'creator' });
-    Order.hasOne(models.Payment, { foreignKey: 'order_id', as: 'payment' });
-    Order.hasMany(models.WaMessageLog, { foreignKey: 'order_id', as: 'waLogs' });
+    Order.hasOne(models.Payment, { foreignKey: 'order_id', as: 'payment', onDelete: 'CASCADE' });
+    Order.hasMany(models.WaMessageLog, { foreignKey: 'order_id', as: 'waLogs', onDelete: 'CASCADE' });
   };
 
   return Order;

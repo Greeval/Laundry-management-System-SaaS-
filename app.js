@@ -8,6 +8,11 @@ const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 const db = require('./models');
 
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sessionStore = new SequelizeStore({
+    db: db.sequelize
+});
+
 const app = express();
 
 // Security Middleware (Helmet)
@@ -28,6 +33,7 @@ app.use(methodOverride('_method'));
 // Session & Flash
 app.use(session({
     secret: process.env.SESSION_SECRET || 'laundry-secret',
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -65,6 +71,9 @@ const staffRoutes = require('./routes/staff');
 const trackingRoutes = require('./routes/tracking');
 
 // Mount Routes
+const autoCleanupOldOrders = require('./middleware/cleanup');
+app.use(autoCleanupOldOrders);
+
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/orders', orderRoutes);
@@ -78,9 +87,12 @@ const PORT = process.env.PORT || 3000;
 
 // Start server
 db.sequelize.sync().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
+    // Only listen if run directly (not imported by Vercel)
+    if (require.main === module) {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    }
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
 });

@@ -12,12 +12,15 @@ const config = {
     logging: false,
   },
   production: {
-    dialect: 'mysql',
-    host: process.env.DB_HOST || 'localhost',
-    database: process.env.DB_NAME || 'web_laundry',
-    username: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || '',
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgres',
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
     pool: {
       max: 5,
       min: 0,
