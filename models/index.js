@@ -7,7 +7,9 @@ const dbConfig = require('../config/database');
 // Create Sequelize instance based on dialect
 let sequelize;
 
-if (dbConfig.dialect === 'sqlite') {
+if (dbConfig.use_env_variable) {
+  sequelize = new Sequelize(process.env[dbConfig.use_env_variable], dbConfig);
+} else if (dbConfig.dialect === 'sqlite') {
   sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: dbConfig.storage,
@@ -18,12 +20,7 @@ if (dbConfig.dialect === 'sqlite') {
     dbConfig.database,
     dbConfig.username,
     dbConfig.password,
-    {
-      host: dbConfig.host,
-      dialect: dbConfig.dialect,
-      logging: dbConfig.logging,
-      pool: dbConfig.pool,
-    }
+    dbConfig
   );
 }
 

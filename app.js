@@ -113,9 +113,10 @@ db.sequelize.sync().then(() => {
 } catch (e) {
     const express = require('express');
     app = express();
-    app.all('*', (req, res) => {
+    app.use((req, res) => {
         res.status(500).send(`<pre style="white-space:pre-wrap; word-wrap:break-word; color:red;">APP CRASHED ON STARTUP:\n${e.stack || e}\n\nDATABASE_URL is: ${process.env.DATABASE_URL ? 'SET' : 'EMPTY'}</pre>`);
     });
+    console.error("STARTUP ERROR CAUGHT:", e);
 }
 
 module.exports = app;
