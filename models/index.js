@@ -4,6 +4,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const dbConfig = require('../config/database');
 
+// Force Vercel to include PostgreSQL drivers in the serverless bundle
+require('pg');
+require('pg-hstore');
+
 // Create Sequelize instance based on dialect
 let sequelize;
 
