@@ -92,7 +92,18 @@ app.use(autoCleanupOldOrders);
 // Error interception middleware for DB failures
 app.use((req, res, next) => {
     if (startupError) {
-        return res.status(500).send(`<pre style="white-space:pre-wrap; word-wrap:break-word; color:red;">DATABASE INIT ERROR:\n${startupError.stack || startupError}\n\nDATABASE_URL is: ${process.env.DATABASE_URL ? 'SET' : 'EMPTY'}</pre>`);
+        return res.status(500).send(`<pre style="color:red;font-size:16px;">
+DATABASE INIT ERROR:
+${startupError.stack || startupError}
+
+ORIGINAL ERROR:
+${startupError.original ? startupError.original.message : 'N/A'}
+
+SQL:
+${startupError.sql || 'N/A'}
+
+DATABASE_URL is: ${process.env.DATABASE_URL ? 'SET' : 'NOT SET'}
+</pre>`);
     }
     next();
 });

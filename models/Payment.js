@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'pending',
     },
     approved_by: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: true,
     },
     paid_at: {
