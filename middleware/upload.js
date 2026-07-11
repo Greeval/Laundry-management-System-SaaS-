@@ -10,8 +10,12 @@ const proofDir = path.join(__dirname, '..', 'public', 'uploads', 'proofs');
 const qrisDir = path.join(__dirname, '..', 'public', 'uploads', 'qris');
 
 [proofDir, qrisDir].forEach((dir) => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (err) {
+    console.warn(`Skipping dir creation for ${dir} (expected on Vercel)`);
   }
 });
 
