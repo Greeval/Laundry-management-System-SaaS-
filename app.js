@@ -19,6 +19,9 @@ const sessionStore = new SequelizeStore({
 
 app = express();
 
+// Trust Vercel's edge proxy for secure cookies
+app.set('trust proxy', 1);
+
 // Security Middleware (Helmet)
 app.use(helmet({
   contentSecurityPolicy: {
