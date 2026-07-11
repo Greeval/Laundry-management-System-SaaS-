@@ -1,3 +1,7 @@
+let app;
+let startupError = null;
+
+try {
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
@@ -13,7 +17,7 @@ const sessionStore = new SequelizeStore({
     db: db.sequelize
 });
 
-const app = express();
+app = express();
 
 // Security Middleware (Helmet)
 app.use(helmet());
@@ -74,6 +78,14 @@ const trackingRoutes = require('./routes/tracking');
 const autoCleanupOldOrders = require('./middleware/cleanup');
 app.use(autoCleanupOldOrders);
 
+// Error interception middleware for DB failures
+app.use((req, res, next) => {
+    if (startupError) {
+        return res.status(500).send(`<pre style="white-space:pre-wrap; word-wrap:break-word; color:red;">DATABASE INIT ERROR:\n${startupError.stack || startupError}\n\nDATABASE_URL is: ${process.env.DATABASE_URL ? 'SET' : 'EMPTY'}</pre>`);
+    }
+    next();
+});
+
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/orders', orderRoutes);
@@ -94,7 +106,16 @@ db.sequelize.sync().then(() => {
         });
     }
 }).catch(err => {
+    startupError = err;
     console.error('Unable to connect to the database:', err);
 });
+
+} catch (e) {
+    const express = require('express');
+    app = express();
+    app.all('*', (req, res) => {
+        res.status(500).send(`<pre style="white-space:pre-wrap; word-wrap:break-word; color:red;">APP CRASHED ON STARTUP:\n${e.stack || e}\n\nDATABASE_URL is: ${process.env.DATABASE_URL ? 'SET' : 'EMPTY'}</pre>`);
+    });
+}
 
 module.exports = app;
