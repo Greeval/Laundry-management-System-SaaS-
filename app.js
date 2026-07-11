@@ -60,6 +60,22 @@ app.use(session({
 }));
 app.use(flash());
 
+// Serverless Session Saver Fix
+// Vercel immediately ends the request on res.redirect, which interrupts req.session.save()
+app.use((req, res, next) => {
+    const originalRedirect = res.redirect;
+    res.redirect = function (...args) {
+        if (req.session && req.session.save) {
+            req.session.save(() => {
+                originalRedirect.apply(res, args);
+            });
+        } else {
+            originalRedirect.apply(res, args);
+        }
+    };
+    next();
+});
+
 // Global variables for views
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success');
