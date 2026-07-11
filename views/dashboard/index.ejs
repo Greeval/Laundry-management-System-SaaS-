@@ -1,0 +1,137 @@
+<!-- Summary Section (Bento-like grid) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
+    <!-- Total Pesanan Card -->
+    <div class="bg-surface-container-lowest rounded-2xl p-4 md:p-6 flex flex-col justify-between shadow-[0_4px_12px_rgba(0,74,198,0.05)] border border-outline-variant/30 min-h-[140px] relative overflow-hidden group hover:shadow-[0_8px_20px_rgba(0,74,198,0.08)] transition-shadow">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <h2 class="text-[14px] font-semibold text-on-surface-variant tracking-wide">Total Pesanan Hari Ini</h2>
+            <span class="material-symbols-outlined text-primary bg-primary-container/20 p-2 rounded-full">shopping_bag</span>
+        </div>
+        <div class="relative z-10 mt-4">
+            <p class="text-[32px] md:text-[36px] font-bold text-on-surface leading-none"><%= typeof stats !== 'undefined' ? stats.todayOrders : 0 %></p>
+            <p class="text-[12px] font-medium text-secondary flex items-center mt-2">
+                <span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> Real-time: <%= new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'}) %>
+            </p>
+        </div>
+    </div>
+
+    <!-- Pendapatan Card -->
+    <div class="bg-primary rounded-2xl p-4 md:p-6 flex flex-col justify-between shadow-[0_8px_20px_rgba(0,74,198,0.2)] min-h-[140px] text-on-primary relative overflow-hidden group hover:shadow-[0_12px_24px_rgba(0,74,198,0.3)] transition-shadow">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+        <div class="flex justify-between items-start relative z-10">
+            <h2 class="text-[14px] font-semibold text-primary-fixed-dim tracking-wide">Pendapatan Hari Ini</h2>
+            <span class="material-symbols-outlined text-on-primary bg-white/20 p-2 rounded-full backdrop-blur-sm">payments</span>
+        </div>
+        <div class="relative z-10 mt-4">
+            <p class="text-[28px] md:text-[32px] font-bold leading-none tracking-tight">Rp <%= typeof stats !== 'undefined' && stats.todayRevenue ? Number(stats.todayRevenue).toLocaleString('id-ID') : '0' %></p>
+            <div class="flex items-center gap-2 mt-3">
+                <div class="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+                    <div class="h-full bg-secondary-fixed w-full rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Recent Orders Section -->
+    <section class="flex flex-col gap-4 lg:col-span-2">
+        <div class="flex justify-between items-end">
+            <h2 class="text-[18px] font-semibold text-on-surface">Pesanan Terbaru</h2>
+            <a href="/orders" class="text-[13px] font-medium text-primary hover:opacity-80 transition-opacity flex items-center">
+                Lihat Semua <span class="material-symbols-outlined text-[18px] ml-1">arrow_forward</span>
+            </a>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <% if (typeof recentOrders !== 'undefined' && recentOrders.length > 0) { %>
+                <% recentOrders.forEach(function(order) { %>
+                    <a href="/orders/<%= order.id %>" class="bg-surface-container-lowest rounded-2xl p-4 flex items-center justify-between shadow-[0_4px_12px_rgba(0,74,198,0.03)] border border-outline-variant/30 min-h-[72px] active:scale-[0.98] hover:border-primary/30 transition-all cursor-pointer group">
+                        <div class="flex items-center gap-4">
+                            <!-- Avatar Initial -->
+                            <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-[18px] shrink-0 group-hover:bg-primary-container transition-colors">
+                                <%= order.customer && order.customer.name ? order.customer.name.substring(0,1).toUpperCase() : '?' %>
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <span class="text-[15px] font-semibold text-on-surface truncate"><%= order.customer ? order.customer.name : 'Unknown' %></span>
+                                <span class="text-[13px] text-on-surface-variant truncate capitalize">
+                                    <%= h.getServiceDetails(order.service_type).name %> 
+                                    <% if (order.weight_kg) { %> • <%= order.weight_kg %> kg<% } %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 pl-3 shrink-0">
+                            <!-- Status Badge -->
+                            <% if (order.status === 'menunggu') { %>
+                                <span class="bg-surface-variant text-on-surface-variant text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap tracking-wide uppercase">Menunggu</span>
+                            <% } else if (order.status === 'diproses') { %>
+                                <span class="bg-primary-container text-on-primary-container text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap tracking-wide uppercase">Diproses</span>
+                            <% } else if (order.status === 'selesai') { %>
+                                <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap tracking-wide uppercase">Selesai</span>
+                            <% } else if (order.status === 'diambil') { %>
+                                <span class="bg-secondary-container text-on-secondary-container text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap tracking-wide uppercase">Diambil</span>
+                            <% } %>
+                            
+                            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">chevron_right</span>
+                        </div>
+                    </a>
+                <% }); %>
+            <% } else { %>
+                <div class="bg-surface-container-lowest rounded-2xl p-8 flex flex-col items-center justify-center text-center border border-outline-variant/30 border-dashed">
+                    <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mb-3">
+                        <span class="material-symbols-outlined text-on-surface-variant text-[32px]">inbox</span>
+                    </div>
+                    <h3 class="text-[16px] font-semibold text-on-surface">Belum Ada Pesanan</h3>
+                    <p class="text-[13px] text-on-surface-variant mt-1">Pesanan baru akan muncul di sini.</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Sidebar Right: Pending Payments -->
+    <section class="flex flex-col gap-4">
+        <% if (typeof pendingPayments !== 'undefined' && pendingPayments.length > 0) { %>
+            <div class="flex justify-between items-end">
+                <h2 class="text-[18px] font-semibold text-on-surface">Menunggu Pembayaran</h2>
+            </div>
+            
+            <div class="flex flex-col gap-3">
+                <% pendingPayments.forEach(function(payment) { %>
+                    <div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,74,198,0.03)] border border-outline-variant/30 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+                        <div class="flex justify-between items-start mb-2 pl-2">
+                            <div>
+                                <span class="text-[14px] font-bold text-primary"><%= payment.order ? payment.order.order_code : '-' %></span>
+                                <div class="text-[12px] text-on-surface-variant font-medium"><%= payment.order && payment.order.customer ? payment.order.customer.name : '-' %></div>
+                            </div>
+                        </div>
+                        <div class="bg-surface-variant/30 rounded-xl p-3 my-3 pl-2">
+                            <div class="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider mb-1">Total Transfer</div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-[18px] font-bold text-on-surface">Rp <%= Number(payment.expected_amount).toLocaleString('id-ID') %></span>
+                                <span class="text-[12px] font-bold text-tertiary bg-tertiary-fixed px-1.5 py-0.5 rounded">+<%= payment.unique_code %></span>
+                            </div>
+                        </div>
+                        <form action="/payments/<%= payment.id %>/approve" method="POST" class="mt-2 pl-2">
+                            <button type="submit" class="w-full h-[40px] bg-primary text-on-primary rounded-xl font-medium text-[13px] hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" onclick="return confirm('Approve pembayaran ini?')">
+                                <span class="material-symbols-outlined text-[18px]">check_circle</span> Approve Pembayaran
+                            </button>
+                        </form>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <!-- Optional: Empty state for payments -->
+            <div class="hidden lg:flex bg-surface-container-low rounded-2xl p-6 flex-col items-center justify-center text-center border border-outline-variant/20 min-h-[200px]">
+                <span class="material-symbols-outlined text-on-surface-variant/50 text-[48px] mb-2">check_circle</span>
+                <p class="text-[14px] font-medium text-on-surface-variant">Semua pembayaran sudah diselesaikan.</p>
+            </div>
+        <% } %>
+    </section>
+</div>
+
+<!-- Floating Action Button for Mobile -->
+<a href="/orders/create" class="fixed bottom-[90px] right-[20px] bg-secondary text-on-secondary rounded-2xl px-5 h-14 flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(0,111,102,0.3)] hover:opacity-90 active:scale-95 transition-all z-40 md:hidden">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+    <span class="text-[15px] font-semibold tracking-wide">Pesanan Baru</span>
+</a>

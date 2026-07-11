@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="id" style=""><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#b54e00",
+                        "outline-variant": "#c3c6d7",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "secondary-fixed": "#89f5e7",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-fixed": "#ffdbca",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#ffece5",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#86f2e4",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-container": "#006f66",
+                        "tertiary-fixed-dim": "#ffb690",
+                        "on-tertiary-fixed-variant": "#783200",
+                        "on-error": "#ffffff",
+                        "primary": "#004ac6",
+                        "error": "#ba1a1a",
+                        "outline": "#737686",
+                        "background": "#f8f9ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#005049",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary": "#8e3c00",
+                        "surface-tint": "#0053db",
+                        "secondary": "#006a61",
+                        "on-background": "#0b1c30",
+                        "on-surface-variant": "#434655",
+                        "on-tertiary-fixed": "#341100",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "touch-target-min": "48px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "base": "4px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script></head><body class="bg-background text-on-background min-h-screen flex flex-col relative pb-[100px]">
+
+    <!-- TopAppBar -->
+    <header class="w-full top-0 sticky z-40 bg-surface shadow-sm">
+        <div class="flex justify-between items-center px-margin-mobile h-touch-target-min w-full">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-2xl" data-icon="local_laundry_service" data-original-icon="local_laundry_service">local_laundry_service</span>
+                <h1 class="font-headline-md text-headline-md font-bold text-primary">Sembara Laundry</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Staff Member</span>
+                <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
+                    SM
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Canvas -->
+    <main class="flex-1 p-margin-mobile md:p-xl flex flex-col gap-lg max-w-7xl mx-auto w-full">
+        
+        <!-- Summary Section (Bento-like grid) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-md">
+            <!-- Total Pesanan Card -->
+            <div class="bg-surface-container-lowest rounded-2xl p-md flex flex-col justify-between shadow-[0_4px_12px_rgba(0,74,198,0.05)] border border-outline-variant/30 min-h-[140px]">
+                <div class="flex justify-between items-start">
+                    <h2 class="font-label-lg text-label-lg text-on-surface-variant">Total Pesanan Hari Ini</h2>
+                    <span class="material-symbols-outlined text-primary bg-primary-container/20 p-2 rounded-full" data-icon="shopping_bag">shopping_bag</span>
+                </div>
+                <div>
+                    <p class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">42</p>
+                    <p class="font-label-sm text-label-sm text-secondary flex items-center mt-1">
+                        <span class="material-symbols-outlined text-[14px] mr-1" data-icon="trending_up">trending_up</span> +12% dari kemarin
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pendapatan Card -->
+            <div class="bg-primary rounded-2xl p-md flex flex-col justify-between shadow-[0_8px_20px_rgba(0,74,198,0.1)] min-h-[140px] text-on-primary">
+                <div class="flex justify-between items-start">
+                    <h2 class="font-label-lg text-label-lg text-primary-fixed-dim">Pendapatan Hari Ini</h2>
+                    <span class="material-symbols-outlined text-on-primary bg-on-primary-fixed-variant p-2 rounded-full" data-icon="payments">payments</span>
+                </div>
+                <div class="">
+                    <p class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg">Rp 1.450.000</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menunggu Diambil Section -->
+        <section class="flex flex-col gap-md">
+            <div class="flex justify-between items-end">
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Menunggu Diambil <span class="text-on-surface-variant font-body-md ml-1">(8)</span></h2>
+                <button class="font-label-sm text-label-sm text-primary hover:opacity-80 transition-opacity">Lihat Semua</button>
+            </div>
+
+            <div class="flex flex-col gap-sm">
+                <!-- List Item 1 -->
+                <div class="bg-surface-container-lowest rounded-2xl p-md flex items-center justify-between shadow-[0_4px_12px_rgba(0,74,198,0.05)] border border-outline-variant/30 min-h-[72px] active:scale-[0.98] transition-transform cursor-pointer">
+                    <div class="flex items-center gap-md">
+                        <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">A</div>
+                        <div class="flex flex-col">
+                            <span class="font-label-lg text-label-lg text-on-surface">Budi Santoso</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">Cuci Kering • 5.2 kg</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-3 py-1 rounded-full whitespace-nowrap">Selesai</span>
+                        <span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+                    </div>
+                </div>
+
+                <!-- List Item 2 -->
+                <div class="bg-surface-container-lowest rounded-2xl p-md flex items-center justify-between shadow-[0_4px_12px_rgba(0,74,198,0.05)] border border-outline-variant/30 min-h-[72px] active:scale-[0.98] transition-transform cursor-pointer">
+                    <div class="flex items-center gap-md">
+                        <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">S</div>
+                        <div class="flex flex-col">
+                            <span class="font-label-lg text-label-lg text-on-surface">Siti Rahma</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">Setrika Saja • 3.0 kg</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-3 py-1 rounded-full whitespace-nowrap">Selesai</span>
+                        <span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+                    </div>
+                </div>
+
+                <!---->
+                <div class="bg-surface-container-lowest rounded-2xl p-md flex items-center justify-between shadow-[0_4px_12px_rgba(0,74,198,0.05)] border border-outline-variant/30 min-h-[72px] active:scale-[0.98] transition-transform cursor-pointer">
+                    <div class="flex items-center gap-md">
+                        <div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">D</div>
+                        <div class="flex flex-col">
+                            <span class="font-label-lg text-label-lg text-on-surface">Doni Pratama</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">Cuci Komplit • 7.5 kg</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm px-3 py-1 rounded-full whitespace-nowrap">Selesai</span>
+                        <span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fixed bottom-[90px] right-margin-mobile bg-secondary text-on-secondary rounded-2xl px-md h-14 flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(0,111,102,0.3)] hover:opacity-90 active:scale-95 transition-all z-40 md:right-xl">
+        <span class="material-symbols-outlined" data-icon="add">add</span>
+        <span class="font-label-lg text-label-lg">Pesanan Baru</span>
+    </button>
+
+    <!-- BottomNavBar -->
+    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,74,198,0.05)] md:hidden rounded-t-xl">
+        <!-- Dashboard (Active) -->
+        <button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-2 transition-all duration-200">
+            <span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: &quot;FILL&quot; 1;">dashboard</span>
+            <span class="font-label-sm text-label-sm mt-1">Dashboard</span>
+        </button>
+        <!-- Orders (Inactive) -->
+        <button class="flex flex-col items-center justify-center text-on-surface-variant px-6 py-2 hover:bg-surface-container-low rounded-full transition-colors active:scale-90 duration-200">
+            <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+            <span class="font-label-sm text-label-sm mt-1">Orders</span>
+        </button>
+        <!-- Settings (Inactive) -->
+        <button class="flex flex-col items-center justify-center text-on-surface-variant px-6 py-2 hover:bg-surface-container-low rounded-full transition-colors active:scale-90 duration-200">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            </button></nav></body></html>

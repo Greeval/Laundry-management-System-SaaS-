@@ -1,0 +1,32 @@
+<% if (typeof messages !== 'undefined') { %>
+  <% if (messages.success && messages.success.length > 0) { %>
+    <div class="flex flex-col gap-2 mb-6">
+      <% messages.success.forEach(function(msg) { %>
+        <div class="bg-secondary-container text-on-secondary-container px-4 py-3 rounded-xl flex items-center justify-between shadow-sm relative flash-alert" role="alert">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+            <span class="text-[14px] font-medium"><%= msg %></span>
+          </div>
+          <button type="button" class="text-on-secondary-container/70 hover:text-on-secondary-container transition-colors" onclick="this.parentElement.remove()" aria-label="Tutup">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+  <% if (messages.error && messages.error.length > 0) { %>
+    <div class="flex flex-col gap-2 mb-6">
+      <% messages.error.forEach(function(msg) { %>
+        <div class="bg-error-container text-on-error-container px-4 py-3 rounded-xl flex items-center justify-between shadow-sm relative flash-alert" role="alert">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px]">warning</span>
+            <span class="text-[14px] font-medium"><%= msg %></span>
+          </div>
+          <button type="button" class="text-on-error-container/70 hover:text-on-error-container transition-colors" onclick="this.parentElement.remove()" aria-label="Tutup">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+<% } %>

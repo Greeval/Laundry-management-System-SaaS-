@@ -1,0 +1,129 @@
+<div class="py-4 max-w-3xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-on-surface">Selesaikan Pesanan #<%= order.order_code %></h1>
+        <a href="/orders/<%= order.id %>" class="px-5 py-2.5 rounded-xl border border-outline-variant text-on-surface font-semibold hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined">arrow_back</span> Batal
+        </a>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+        <div class="p-6">
+            <form action="/orders/<%= order.id %>/complete" method="POST" id="completeForm">
+                
+                <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 mb-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h6 class="font-bold text-on-surface text-lg mb-1"><%= order.customer.name %></h6>
+                            <% const svc = h.getServiceDetails(order.service_type, settings); %>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md <%= svc.color %> text-xs font-bold uppercase tracking-wider"><%= svc.name %></span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-on-surface-variant text-xs block mb-1">Tarif berlaku:</span>
+                            <span class="font-bold text-primary" id="currentTarif" data-tarif="<%= svc.price %>">
+                                <%= h.formatRupiah(svc.price) %> / kg
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="weight_kg" class="block font-bold text-on-surface mb-2">Berat Aktual (kg) <span class="text-error">*</span></label>
+                    <div class="flex">
+                        <input type="number" id="weight_kg" name="weight_kg" step="0.1" min="0.1" required autofocus class="w-full px-4 py-3 text-lg rounded-l-xl border border-r-0 border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-surface-container-lowest text-on-surface">
+                        <span class="inline-flex items-center px-4 py-3 rounded-r-xl border border-outline-variant/50 bg-surface-container-highest text-on-surface-variant font-medium">kg</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-bold text-on-surface mb-3">Metode Pembayaran</label>
+                    <div class="flex flex-wrap gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="method" id="methodTransfer" value="transfer" checked class="w-4 h-4 text-primary bg-surface-container-lowest border-outline-variant focus:ring-primary focus:ring-2">
+                            <span class="text-on-surface font-medium">Transfer Bank</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="method" id="methodQris" value="qris" class="w-4 h-4 text-primary bg-surface-container-lowest border-outline-variant focus:ring-primary focus:ring-2">
+                            <span class="text-on-surface font-medium">QRIS</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="method" id="methodCash" value="cash" class="w-4 h-4 text-primary bg-surface-container-lowest border-outline-variant focus:ring-primary focus:ring-2">
+                            <span class="text-on-surface font-medium">Cash / Tunai</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-on-surface transition-colors w-max">
+                        <input type="checkbox" id="manual_override" name="manual_override" value="1" class="w-4 h-4 text-primary bg-surface-container-lowest border-outline-variant rounded focus:ring-primary focus:ring-2">
+                        <span>Override harga manual</span>
+                    </label>
+                </div>
+
+                <div class="mb-6 hidden" id="manualPriceContainer">
+                    <label for="manual_price" class="block font-bold text-on-surface mb-2">Harga Manual (Rp)</label>
+                    <div class="flex">
+                        <span class="inline-flex items-center px-4 py-3 rounded-l-xl border border-r-0 border-outline-variant/50 bg-surface-container-highest text-on-surface-variant font-medium">Rp</span>
+                        <input type="number" id="manual_price" name="manual_price" min="0" step="1" class="w-full px-4 py-3 rounded-r-xl border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-surface-container-lowest text-on-surface">
+                    </div>
+                    <p class="text-xs text-on-surface-variant mt-2">Harga ini akan menggantikan perhitungan berat × tarif.</p>
+                </div>
+
+                <div class="bg-surface-container-high p-5 rounded-2xl mb-6 border border-outline-variant/20">
+                    <h5 class="font-bold text-on-surface mb-3 text-lg">Estimasi Tagihan</h5>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-on-surface-variant font-medium">Total Harga:</span>
+                        <span class="font-bold text-2xl text-primary" id="previewTotal">Rp 0</span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant mt-2" id="uniqueCodeNote">
+                        *Sistem akan menambahkan 3 digit kode unik secara otomatis saat invoice dikirim untuk memudahkan pencocokan pembayaran transfer/QRIS.
+                    </p>
+                </div>
+
+                <button type="submit" class="w-full px-6 py-4 rounded-xl bg-[#128C7E] text-white font-bold shadow-md hover:bg-[#075E54] transition-colors flex items-center justify-center gap-2 text-lg" id="submitBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Simpan & Kirim Invoice WA
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const weightInput = document.getElementById('weight_kg');
+    const overrideCheck = document.getElementById('manual_override');
+    const manualContainer = document.getElementById('manualPriceContainer');
+    const manualInput = document.getElementById('manual_price');
+    const previewTotal = document.getElementById('previewTotal');
+    const tarifElement = document.getElementById('currentTarif');
+    const tarif = parseFloat(tarifElement.dataset.tarif);
+
+    function updatePreview() {
+        let total = 0;
+        if (overrideCheck.checked && manualInput.value) {
+            total = parseFloat(manualInput.value) || 0;
+        } else if (weightInput.value) {
+            total = (parseFloat(weightInput.value) || 0) * tarif;
+        }
+        
+        previewTotal.textContent = 'Rp ' + Math.round(total).toLocaleString('id-ID');
+    }
+
+    weightInput.addEventListener('input', updatePreview);
+    manualInput.addEventListener('input', updatePreview);
+    
+    overrideCheck.addEventListener('change', function() {
+        if (this.checked) {
+            manualContainer.classList.remove('hidden');
+            manualInput.required = true;
+            weightInput.required = false;
+        } else {
+            manualContainer.classList.add('hidden');
+            manualInput.required = false;
+            manualInput.value = '';
+            weightInput.required = true;
+        }
+        updatePreview();
+    });
+});
+</script>

@@ -1,0 +1,406 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#f8f9ff",
+                      "on-tertiary-fixed-variant": "#783200",
+                      "inverse-on-surface": "#eaf1ff",
+                      "secondary": "#006a61",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#213145",
+                      "surface-container-high": "#dce9ff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#ffdbca",
+                      "surface-tint": "#0053db",
+                      "tertiary-container": "#b54e00",
+                      "surface-dim": "#cbdbf5",
+                      "tertiary-fixed-dim": "#ffb690",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-surface-variant": "#434655",
+                      "surface-container": "#e5eeff",
+                      "outline": "#737686",
+                      "on-tertiary-container": "#ffece5",
+                      "on-primary-fixed": "#00174b",
+                      "outline-variant": "#c3c6d7",
+                      "surface": "#f8f9ff",
+                      "secondary-fixed": "#89f5e7",
+                      "secondary-container": "#86f2e4",
+                      "surface-container-highest": "#d3e4fe",
+                      "surface-container-low": "#eff4ff",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary-fixed": "#341100",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#005049",
+                      "on-background": "#0b1c30",
+                      "on-primary-container": "#eeefff",
+                      "inverse-primary": "#b4c5ff",
+                      "tertiary": "#8e3c00",
+                      "primary-fixed": "#dbe1ff",
+                      "on-secondary-container": "#006f66",
+                      "primary": "#004ac6",
+                      "on-surface": "#0b1c30",
+                      "secondary-fixed-dim": "#6bd8cb",
+                      "on-secondary-fixed": "#00201d",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#2563eb",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-tertiary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "base": "4px",
+                      "lg": "24px",
+                      "2xl": "48px",
+                      "touch-target-min": "48px",
+                      "sm": "8px",
+                      "margin-mobile": "20px",
+                      "xs": "4px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "label-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="bg-background text-on-background flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-outline-variant p-md shrink-0">
+<!-- Header -->
+<div class="mb-lg px-sm pt-sm flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-original-icon="local_laundry_service">local_laundry_service</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary truncate">Sembara Laundry</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Main Branch</p>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-lg font-label-lg text-label-lg shadow-floating hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200 mb-lg flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined icon-fill">add_circle</span>
+            New Order
+        </button>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-sm overflow-y-auto">
+<!-- Active: Dashboard -->
+<a href="#" class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-md py-sm font-bold scale-98 active:scale-95 transition-transform h-touch-target-min">
+<span class="material-symbols-outlined icon-fill">dashboard</span>
+<span class="font-label-lg text-label-lg">Dashboard</span>
+</a>
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-lg text-label-lg">Orders</span>
+</a>
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-lg text-label-lg">Inventory</span>
+</a>
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-lg text-label-lg">Staff Schedule</span>
+</a>
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-lg text-label-lg">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto pt-md border-t border-outline-variant flex flex-col gap-sm">
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-lg text-label-lg">Help Center</span>
+</a>
+<a href="#" class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-lg px-md py-sm transition-all h-touch-target-min">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content-->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopNavBar (Mobile mainly, but keeping header structural for desktop) -->
+<header class="flex justify-between items-center w-full px-lg h-touch-target-min sticky top-0 z-40 bg-surface-container-lowest dark:bg-on-background shadow-sm md:shadow-none md:bg-transparent">
+<!-- Mobile Brand -->
+<div class="md:hidden">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-inverse-primary tracking-tight font-bold">LaundroOps</h1>
+</div>
+<!-- Desktop Context Title -->
+<div class="hidden md:block">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Ringkasan Hari Ini</h2>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant ml-sm cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+<img alt="Manager Profile" class="object-cover w-full h-full" data-alt="A close up portrait of a professional laundry manager wearing a neat blue uniform in a brightly lit, clean modern laundromat setting. Soft natural lighting, high key, professional and friendly mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC50MlqgpWcUfZqj8AYfOu1mrByubnV0agi5rJwCu8gFm92qmxdZIDurhOZnnsHur9btENOlAq5m-AGzpjWU0uZPnXjyG8HgT_JUYcZbgNwMxwu2eOjp8D4DQ01-T6yADHf8aKR_1_UF_onyOIFjwTUl8uiO3TmEYg1B5G-v9bwDrGHxfeOzUIOKLPdQu2OSVGbB3nH0hxiX3DtEqdSDCwr3Qks4jIsS9oURBdVPHe305cDw8kSCijsfg">
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-lg space-y-lg">
+<!-- Bento Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-soft flex flex-col justify-between min-h-[140px] border border-outline-variant/30 relative overflow-hidden group hover:shadow-floating transition-shadow">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+<div class="flex items-start justify-between relative z-10">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-xs">Total Pesanan</p>
+<h3 class="font-headline-lg text-headline-lg text-on-background font-bold">42</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">local_mall</span>
+</div>
+</div>
+<div class="flex items-center gap-xs mt-sm relative z-10">
+<span class="material-symbols-outlined text-secondary text-sm" data-original-icon="trending">trending_up</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">+12%</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm ml-xs">vs kemarin</span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-soft flex flex-col justify-between min-h-[140px] border border-outline-variant/30 relative overflow-hidden group hover:shadow-floating transition-shadow">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+<div class="flex items-start justify-between relative z-10">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-xs">Pendapatan</p>
+<h3 class="font-headline-lg text-headline-lg text-on-background font-bold">Rp 1.450.000</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="flex items-center gap-xs mt-sm relative z-10">
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-3/4 rounded-full"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0 ml-sm">75% Target</span>
+</div>
+</div>
+</div>
+<!-- List Section: Pending Pickups -->
+<div class="bg-surface-container-lowest rounded-xl shadow-soft border border-outline-variant/30 overflow-hidden">
+<div class="p-md md:p-lg border-b border-outline-variant/50 flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-background">Menunggu Diambil</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Pesanan selesai yang siap diambil pelanggan.</p>
+</div>
+<button class="h-touch-target-min px-md rounded-lg text-primary font-label-lg text-label-lg hover:bg-surface-container-low transition-colors hidden md:flex items-center">
+                        Lihat Semua
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left min-w-[600px]">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-outline-variant/30">
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pelanggan</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Layanan</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Berat/Qty</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="py-md px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">
+                                            BW
+                                        </div>
+<div>
+<p class="font-label-lg text-label-lg text-on-background">Budi Wijaya</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">#ORD-089</p>
+</div>
+</div>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">Cuci Kering Lipat</p>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">5.2 kg</p>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container">
+                                        Selesai
+                                    </span>
+</td>
+<td class="py-md px-lg text-right">
+<button class="w-10 h-10 rounded-full inline-flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-sm">
+                                            SA
+                                        </div>
+<div>
+<p class="font-label-lg text-label-lg text-on-background">Siti Aminah</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">#ORD-092</p>
+</div>
+</div>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">Setrika Saja</p>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">12 pcs</p>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container">
+                                        Selesai
+                                    </span>
+</td>
+<td class="py-md px-lg text-right">
+<button class="w-10 h-10 rounded-full inline-flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">
+                                            AH
+                                        </div>
+<div>
+<p class="font-label-lg text-label-lg text-on-background">Andi Hidayat</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">#ORD-095</p>
+</div>
+</div>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">Cuci Sepatu</p>
+</td>
+<td class="py-md px-lg">
+<p class="font-body-lg text-body-lg text-on-background">2 psg</p>
+</td>
+<td class="py-md px-lg">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container">
+                                        Selesai
+                                    </span>
+</td>
+<td class="py-md px-lg text-right">
+<button class="w-10 h-10 rounded-full inline-flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom padding for mobile FAB-->
+<div class="h-2xl md:hidden"></div>
+</div>
+<!-- Mobile FAB (Only visible on small screens since sidebar handles desktop CTA) -->
+<button class="md:hidden fixed bottom-margin-mobile right-margin-mobile w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-floating flex items-center justify-center z-50 hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-95">
+<span class="material-symbols-outlined icon-fill">add</span>
+</button>
+</main>
+
+</body></html>

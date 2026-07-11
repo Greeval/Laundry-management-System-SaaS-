@@ -1,0 +1,95 @@
+<div class="py-4">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-on-surface">Detail Customer</h1>
+        <a href="/customers" class="px-5 py-2.5 rounded-xl border border-outline-variant text-on-surface font-semibold hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined">arrow_back</span> Kembali
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Customer Profile -->
+        <div class="lg:col-span-4">
+            <div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/30 h-full flex flex-col p-6 items-center text-center">
+                <div class="w-24 h-24 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">person</span>
+                </div>
+                <h4 class="text-xl font-bold text-on-surface mb-1"><%= customer.name %></h4>
+                <p class="text-on-surface-variant flex items-center justify-center gap-2 mb-6">
+                    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" class="w-4 h-4 opacity-70" alt="WA"> <%= customer.phone_number %>
+                </p>
+                
+                <div class="flex justify-center w-full mb-8">
+                    <a href="https://wa.me/<%= customer.phone_number.replace(/^0/, '62') %>" target="_blank" class="px-6 py-2 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#128C7E] transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined">chat</span> Chat WA
+                    </a>
+                </div>
+
+                <div class="w-full text-left space-y-4 pt-4 border-t border-outline-variant/30 mt-auto">
+                    <div>
+                        <span class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider block mb-1">Alamat</span>
+                        <p class="text-on-surface font-medium"><%= customer.address || 'Belum diisi' %></p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider block mb-1">Bergabung Sejak</span>
+                        <p class="text-on-surface font-medium"><%= new Date(customer.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History -->
+        <div class="lg:col-span-8">
+            <div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/30 h-full flex flex-col">
+                <div class="p-6 pb-4 border-b border-outline-variant/30">
+                    <h5 class="text-lg font-bold text-on-surface mb-0">Riwayat Pesanan</h5>
+                </div>
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-surface-container-low text-on-surface-variant">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold">Kode</th>
+                                <th class="px-6 py-4 font-semibold">Tanggal</th>
+                                <th class="px-6 py-4 font-semibold">Status</th>
+                                <th class="px-6 py-4 font-semibold">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/20">
+                            <% if (orders.length === 0) { %>
+                                <tr>
+                                    <td colspan="4" class="px-6 py-12 text-center text-on-surface-variant">Belum ada riwayat pesanan.</td>
+                                </tr>
+                            <% } else { %>
+                                <% orders.forEach(order => { %>
+                                    <tr class="hover:bg-surface/50 transition-colors group">
+                                        <td class="px-6 py-4">
+                                            <a href="/orders/<%= order.id %>" class="font-bold text-on-surface group-hover:text-primary transition-colors">
+                                                <%= order.order_code %>
+                                            </a>
+                                        </td>
+                                        <td class="px-6 py-4 text-on-surface-variant">
+                                            <%= new Date(order.createdAt).toLocaleDateString('id-ID') %>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <% if (order.status === 'menunggu') { %>
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded bg-[#fff8e1] text-[#f57f17] text-xs font-semibold">Menunggu</span>
+                                            <% } else if (order.status === 'diproses') { %>
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded bg-primary-container text-on-primary-container text-xs font-semibold">Diproses</span>
+                                            <% } else if (order.status === 'selesai') { %>
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded bg-[#e8f5e9] text-[#2e7d32] text-xs font-semibold">Selesai</span>
+                                            <% } else if (order.status === 'diambil') { %>
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high text-on-surface text-xs font-semibold">Diambil</span>
+                                            <% } %>
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-on-surface">
+                                            <%= order.price_total ? 'Rp ' + order.price_total.toLocaleString('id-ID') : '-' %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

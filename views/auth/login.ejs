@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk - Laundry Management</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#004ac6",
+              "on-primary": "#ffffff",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6",
+              "on-error-container": "#93000a",
+              "surface": "#f8f9ff",
+              "on-surface": "#0b1c30",
+              "on-surface-variant": "#434655",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#dce9ff",
+              "outline-variant": "#c3c6d7",
+              "background": "#f8f9ff",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            }
+          }
+        }
+      }
+  </script>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-4 font-sans text-on-surface overflow-hidden relative">
+
+  <!-- Decorative Elements -->
+  <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-primary/5 pointer-events-none"></div>
+  <div class="absolute -bottom-24 -right-24 w-64 h-64 rounded-full bg-primary/5 pointer-events-none"></div>
+
+  <div class="w-full max-w-md z-10">
+    <div class="bg-surface-container-lowest rounded-3xl shadow-xl shadow-primary/5 border border-outline-variant/30 p-8 sm:p-10">
+      
+      <!-- Logo -->
+      <div class="flex justify-center mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-surface-container-high text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">local_laundry_service</span>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-center text-on-surface mb-2">Sistem Laundry</h1>
+      <p class="text-center text-on-surface-variant mb-8 text-sm">Masuk ke akun Anda</p>
+
+      <!-- Flash Error -->
+      <% if (typeof messages !== 'undefined' && messages.error && messages.error.length > 0) { %>
+        <% messages.error.forEach(function(msg) { %>
+          <div class="mb-6 bg-error-container text-on-error-container p-4 rounded-xl flex items-start gap-3 border border-error/20 shadow-sm" role="alert">
+            <span class="material-symbols-outlined shrink-0 mt-0.5 text-error">error</span>
+            <span class="text-sm font-medium"><%= msg %></span>
+          </div>
+        <% }); %>
+      <% } %>
+
+      <!-- Login Form -->
+      <form action="/login" method="POST" data-loading class="space-y-6">
+        
+        <!-- Email -->
+        <div>
+          <label for="email" class="block font-semibold text-on-surface mb-2 text-sm">Email</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+                <span class="material-symbols-outlined">email</span>
+            </div>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Masukkan email"
+              value="<%= typeof email !== 'undefined' ? email : '' %>"
+              required 
+              autofocus
+              class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 transition-all"
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block font-semibold text-on-surface mb-2 text-sm">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+                <span class="material-symbols-outlined">lock</span>
+            </div>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Masukkan password"
+              required
+              class="w-full pl-12 pr-12 py-3.5 rounded-xl border border-outline-variant/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 transition-all"
+            >
+            <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant hover:text-primary transition-colors focus:outline-none" tabindex="-1" onclick="togglePassword()">
+                <span class="material-symbols-outlined" id="toggleIcon">visibility_off</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-primary text-on-primary font-bold shadow-md hover:bg-primary/90 hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-2">
+            <span class="material-symbols-outlined">login</span>
+            Masuk
+        </button>
+      </form>
+
+      <p class="text-center mt-6 text-sm text-on-surface-variant">
+        Belum mendaftarkan laundry Anda? 
+        <a href="/register" class="text-primary font-semibold hover:underline">Daftar sekarang</a>
+      </p>
+
+      <p class="text-center mt-6 text-xs text-on-surface-variant font-medium">
+        &copy; <%= new Date().getFullYear() %> Laundry Management System
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility_off';
+        }
+    }
+  </script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

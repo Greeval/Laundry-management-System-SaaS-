@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>Laundry Management</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    try {
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-container": "#b54e00",
+              "outline-variant": "#c3c6d7",
+              "secondary-fixed-dim": "#6bd8cb",
+              "secondary-fixed": "#89f5e7",
+              "on-primary-container": "#eeefff",
+              "tertiary-fixed": "#ffdbca",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed": "#00174b",
+              "on-secondary": "#ffffff",
+              "on-surface": "#0b1c30",
+              "on-tertiary-container": "#ffece5",
+              "error-container": "#ffdad6",
+              "surface-variant": "#d3e4fe",
+              "surface-bright": "#f8f9ff",
+              "surface": "#f8f9ff",
+              "secondary-container": "#86f2e4",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b4c5ff",
+              "primary-fixed": "#dbe1ff",
+              "inverse-surface": "#213145",
+              "surface-container-high": "#dce9ff",
+              "on-secondary-container": "#006f66",
+              "tertiary-fixed-dim": "#ffb690",
+              "on-tertiary-fixed-variant": "#783200",
+              "on-error": "#ffffff",
+              "primary": "#004ac6",
+              "error": "#ba1a1a",
+              "outline": "#737686",
+              "background": "#f8f9ff",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-fixed-variant": "#005049",
+              "surface-container-lowest": "#ffffff",
+              "primary-container": "#2563eb",
+              "surface-container-highest": "#d3e4fe",
+              "surface-container-low": "#eff4ff",
+              "tertiary": "#8e3c00",
+              "surface-tint": "#0053db",
+              "secondary": "#006a61",
+              "on-background": "#0b1c30",
+              "on-surface-variant": "#434655",
+              "on-tertiary-fixed": "#341100",
+              "inverse-on-surface": "#eaf1ff",
+              "surface-dim": "#cbdbf5",
+              "surface-container": "#e5eeff",
+              "on-secondary-fixed": "#00201d",
+              "on-primary": "#ffffff"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              "2xl": "1.5rem",
+              full: "9999px"
+            },
+            spacing: {
+              xs: "4px",
+              "touch-target-min": "48px",
+              sm: "8px",
+              md: "16px",
+              xl: "32px",
+              base: "4px",
+              "2xl": "48px",
+              lg: "24px",
+              "margin-mobile": "20px"
+            },
+            fontFamily: {
+              "headline-sm": ["Plus Jakarta Sans"],
+              "label-lg": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "headline-lg-mobile": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+              "label-sm": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"]
+            }
+          }
+        }
+      }
+    } catch (_e) {}
+  </script>
+  <!-- Custom CSS for specific overrides -->
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-background text-on-background flex h-screen overflow-hidden">
+
+  <!-- Desktop SideNavBar -->
+  <nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface border-r border-outline-variant/30 p-md shrink-0 z-50">
+    <!-- Header -->
+    <div class="mb-lg px-sm pt-sm flex items-center gap-md">
+      <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-surface-container-high flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">local_laundry_service</span>
+      </div>
+      <div>
+        <h1 class="font-bold text-[18px] leading-tight text-primary truncate"><%= typeof laundrySetting !== 'undefined' && laundrySetting ? laundrySetting.business_name : 'Sistem Laundry' %></h1>
+        <p class="text-xs font-medium text-on-surface-variant">Management System</p>
+      </div>
+    </div>
+    
+    <!-- Primary CTA -->
+    <a href="/orders/create" class="fixed bottom-[90px] right-[20px] bg-secondary text-on-secondary rounded-full w-14 h-14 flex items-center justify-center shadow-[0_8px_20px_rgba(0,111,102,0.3)] hover:opacity-90 active:scale-95 transition-all z-40 md:hidden">
+    <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</a>
+    
+    <!-- Navigation Links -->
+    <div class="flex-1 flex flex-col gap-2 overflow-y-auto">
+      <a href="/" class="flex items-center gap-3 <%= typeof currentPath !== 'undefined' && currentPath === '/' ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-container-high' %> rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined" <%= typeof currentPath !== 'undefined' && currentPath === '/' ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>dashboard</span>
+        <span class="text-[15px]">Dashboard</span>
+      </a>
+      <a href="/orders" class="flex items-center gap-3 <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/orders') && !currentPath.startsWith('/orders/create') ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-container-high' %> rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/orders') && !currentPath.startsWith('/orders/create') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>receipt_long</span>
+        <span class="text-[15px]">Pesanan</span>
+      </a>
+      <a href="/customers" class="flex items-center gap-3 <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/customers') ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-container-high' %> rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/customers') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>group</span>
+        <span class="text-[15px]">Customer</span>
+      </a>
+      <a href="/payments/pending" class="flex items-center gap-3 <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/payments') ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-container-high' %> rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/payments') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>credit_card</span>
+        <span class="text-[15px]">Pembayaran</span>
+      </a>
+      <a href="/settings" class="flex items-center gap-3 <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/settings') ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-container-high' %> rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/settings') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>settings</span>
+        <span class="text-[15px]">Pengaturan</span>
+      </a>
+    </div>
+    
+    <!-- Footer Links -->
+    <div class="mt-auto pt-4 border-t border-outline-variant/30 flex flex-col gap-2">
+      <a href="/auth/logout" class="flex items-center gap-3 text-error hover:bg-error-container/30 rounded-xl px-4 py-3 transition-colors h-[48px]">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="text-[15px] font-medium">Keluar</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 ml-0 md:ml-64 flex flex-col h-screen overflow-hidden bg-background relative">
+    
+    <!-- Top Header (Visible on both Mobile and Desktop) -->
+    <header class="flex justify-between items-center w-full px-5 md:px-8 h-[64px] sticky top-0 z-40 bg-surface shadow-sm md:shadow-none md:bg-transparent">
+      <!-- Mobile Brand (Left) -->
+      <div class="md:hidden flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">local_laundry_service</span>
+        <h1 class="text-[20px] font-bold text-primary tracking-tight"><%= typeof laundrySetting !== 'undefined' && laundrySetting ? laundrySetting.business_name : 'Sistem Laundry' %></h1>
+      </div>
+      
+      <!-- Desktop Page Title (Left) -->
+      <div class="hidden md:block">
+        <h2 class="text-[24px] font-bold text-on-background"><%= typeof title !== 'undefined' ? title : 'Dashboard' %></h2>
+      </div>
+      
+      <!-- User Profile (Right) -->
+      <div class="flex items-center gap-3">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <div class="hidden md:block text-right">
+            <p class="text-[13px] font-semibold text-on-surface"><%= user.name %></p>
+            <p class="text-[11px] text-on-surface-variant capitalize"><%= user.role %></p>
+          </div>
+          <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">
+            <%= user.name.substring(0, 2).toUpperCase() %>
+          </div>
+        <% } %>
+      </div>
+    </header>
+
+    <!-- Canvas (Scrollable Body Content) -->
+    <main class="flex-1 overflow-y-auto p-5 md:p-8 pb-[100px] md:pb-8">
+      <%- include('../partials/flash') %>
+      <%- body %>
+    </main>
+
+  </div>
+
+  <!-- Mobile Bottom NavBar -->
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-1 pb-4 pt-2 bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] md:hidden rounded-t-2xl">
+    <a href="/" class="flex flex-col items-center justify-center <%= typeof currentPath !== 'undefined' && currentPath === '/' ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-low' %> rounded-full px-4 py-1.5 transition-all duration-200">
+      <span class="material-symbols-outlined text-[22px]" <%= typeof currentPath !== 'undefined' && currentPath === '/' ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>dashboard</span>
+      <span class="text-[10px] font-medium mt-1">Beranda</span>
+    </a>
+    <a href="/orders" class="flex flex-col items-center justify-center <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/orders') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-low' %> rounded-full px-4 py-1.5 transition-colors active:scale-90 duration-200">
+      <span class="material-symbols-outlined text-[22px]" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/orders') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>receipt_long</span>
+      <span class="text-[10px] font-medium mt-1">Pesanan</span>
+    </a>
+    <a href="/customers" class="flex flex-col items-center justify-center <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/customers') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-low' %> rounded-full px-4 py-1.5 transition-colors active:scale-90 duration-200">
+      <span class="material-symbols-outlined text-[22px]" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/customers') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>group</span>
+      <span class="text-[10px] font-medium mt-1">Customer</span>
+    </a>
+    <a href="/payments/pending" class="flex flex-col items-center justify-center <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/payments') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-low' %> rounded-full px-4 py-1.5 transition-colors active:scale-90 duration-200">
+      <span class="material-symbols-outlined text-[22px]" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/payments') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>credit_card</span>
+      <span class="text-[10px] font-medium mt-1">Tagihan</span>
+    </a>
+    <a href="/settings" class="flex flex-col items-center justify-center <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/settings') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-low' %> rounded-full px-4 py-1.5 transition-colors active:scale-90 duration-200">
+      <span class="material-symbols-outlined text-[22px]" <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/settings') ? 'style="font-variation-settings: \'FILL\' 1;"' : '' %>>settings</span>
+      <span class="text-[10px] font-medium mt-1">Setting</span>
+    </a>
+  </nav>
+
+  <!-- Custom JS -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

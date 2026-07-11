@@ -1,0 +1,206 @@
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 md:p-6 mb-6 shadow-[0_4px_12px_rgba(0,74,198,0.03)] border border-outline-variant/30">
+  <form action="/orders" method="GET" class="flex flex-col md:flex-row gap-4 items-end w-full">
+    
+    <div class="flex flex-col w-full md:w-auto md:flex-1">
+      <label class="text-[13px] font-semibold text-on-surface-variant mb-1.5">Cari</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+          <span class="material-symbols-outlined text-outline">search</span>
+        </span>
+        <input type="text" name="search" placeholder="Nama / No. HP customer" value="<%= typeof query !== 'undefined' && query.search ? query.search : '' %>" class="w-full bg-surface text-on-surface border border-outline-variant/50 rounded-xl pl-10 pr-4 py-2.5 text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+      </div>
+    </div>
+    
+    <div class="flex flex-col w-full md:w-[200px]">
+      <label class="text-[13px] font-semibold text-on-surface-variant mb-1.5">Status</label>
+      <div class="relative">
+        <select name="status" class="w-full bg-surface text-on-surface border border-outline-variant/50 rounded-xl px-4 py-2.5 text-[14px] appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+          <option value="">Semua Status</option>
+          <option value="menunggu" <%= typeof query !== 'undefined' && query.status === 'menunggu' ? 'selected' : '' %>>Menunggu</option>
+          <option value="diproses" <%= typeof query !== 'undefined' && query.status === 'diproses' ? 'selected' : '' %>>Diproses</option>
+          <option value="selesai" <%= typeof query !== 'undefined' && query.status === 'selesai' ? 'selected' : '' %>>Selesai</option>
+          <option value="diambil" <%= typeof query !== 'undefined' && query.status === 'diambil' ? 'selected' : '' %>>Diambil</option>
+        </select>
+        <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <span class="material-symbols-outlined text-outline">expand_more</span>
+        </span>
+      </div>
+    </div>
+    
+    <div class="flex flex-col w-full md:w-[180px]">
+      <label class="text-[13px] font-semibold text-on-surface-variant mb-1.5">Tanggal</label>
+      <input type="date" name="date" value="<%= typeof query !== 'undefined' && query.date ? query.date : '' %>" class="w-full bg-surface text-on-surface border border-outline-variant/50 rounded-xl px-4 py-2.5 text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+    </div>
+    
+    <button type="submit" class="w-full md:w-auto h-[46px] bg-primary-container text-on-primary-container rounded-xl px-6 font-semibold text-[14px] hover:bg-primary-container/80 transition-colors flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+    </button>
+  </form>
+</div>
+
+<!-- Orders Table/List -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,74,198,0.03)] border border-outline-variant/30 overflow-hidden mb-6">
+  
+  <!-- Desktop Table (Hidden on Mobile) -->
+  <div class="hidden md:block overflow-x-auto">
+    <table class="w-full text-left min-w-[800px]">
+      <thead>
+        <tr class="bg-surface border-b border-outline-variant/30">
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Kode</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Customer</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Layanan</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Status</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Berat</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Total</th>
+          <th class="py-3 px-5 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">Tanggal</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-outline-variant/20">
+        <% if (typeof orders !== 'undefined' && orders.length > 0) { %>
+          <% orders.forEach(function(order) { %>
+            <tr onclick="window.location='/orders/<%= order.id %>'" class="hover:bg-surface-variant/20 transition-colors cursor-pointer group">
+              <td class="py-3 px-5">
+                <span class="text-[14px] font-bold text-primary"><%= order.order_code %></span>
+              </td>
+              <td class="py-3 px-5">
+                <div class="text-[14px] font-semibold text-on-surface"><%= order.customer ? order.customer.name : '-' %></div>
+                <div class="text-[12px] text-on-surface-variant"><%= order.customer ? order.customer.phone_number : '' %></div>
+              </td>
+              <td class="py-3 px-5">
+                <% const svc = h.getServiceDetails(order.service_type); %>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md <%= svc.color %> text-xs font-bold uppercase tracking-wider"><%= svc.name %></span>
+              </td>
+              <td class="py-3 px-5">
+                <% if (order.status === 'menunggu') { %>
+                  <span class="bg-surface-variant text-on-surface-variant text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">Menunggu</span>
+                <% } else if (order.status === 'diproses') { %>
+                  <span class="bg-primary-container text-on-primary-container text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">Diproses</span>
+                <% } else if (order.status === 'selesai') { %>
+                  <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">Selesai</span>
+                <% } else if (order.status === 'diambil') { %>
+                  <span class="bg-secondary-container text-on-secondary-container text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">Diambil</span>
+                <% } %>
+              </td>
+              <td class="py-3 px-5 text-[14px] text-on-surface">
+                <% if (order.weight_kg) { %>
+                  <%= Number(order.weight_kg).toFixed(1) %> kg
+                <% } else { %>
+                  <span class="text-on-surface-variant">—</span>
+                <% } %>
+              </td>
+              <td class="py-3 px-5 text-[14px] font-semibold text-on-surface whitespace-nowrap">
+                <% if (order.price_total) { %>
+                  Rp <%= Number(order.price_total).toLocaleString('id-ID') %>
+                <% } else { %>
+                  <span class="text-on-surface-variant">—</span>
+                <% } %>
+              </td>
+              <td class="py-3 px-5 text-[12px] text-on-surface-variant whitespace-nowrap">
+                <%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="7">
+              <div class="py-12 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mb-3">
+                  <span class="material-symbols-outlined text-on-surface-variant text-[32px]">receipt_long</span>
+                </div>
+                <h3 class="text-[16px] font-semibold text-on-surface">Belum Ada Pesanan</h3>
+                <p class="text-[13px] text-on-surface-variant mt-1 mb-4">Pesanan yang sesuai dengan filter akan ditampilkan di sini.</p>
+                <a href="/orders/create" class="h-[40px] bg-primary text-on-primary rounded-xl px-4 font-medium text-[13px] hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">add_circle</span> Buat Pesanan Baru
+                </a>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile List (Hidden on Desktop) -->
+  <div class="md:hidden flex flex-col divide-y divide-outline-variant/20">
+    <% if (typeof orders !== 'undefined' && orders.length > 0) { %>
+      <% orders.forEach(function(order) { %>
+        <a href="/orders/<%= order.id %>" class="p-4 flex flex-col gap-3 active:bg-surface-variant/20 transition-colors">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[13px] font-bold text-primary"><%= order.order_code %></span>
+              <div class="text-[15px] font-semibold text-on-surface mt-0.5"><%= order.customer ? order.customer.name : '-' %></div>
+            </div>
+            <% if (order.status === 'menunggu') { %>
+              <span class="bg-surface-variant text-on-surface-variant text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">Menunggu</span>
+            <% } else if (order.status === 'diproses') { %>
+              <span class="bg-primary-container text-on-primary-container text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">Diproses</span>
+            <% } else if (order.status === 'selesai') { %>
+              <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">Selesai</span>
+            <% } else if (order.status === 'diambil') { %>
+              <span class="bg-secondary-container text-on-secondary-container text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide">Diambil</span>
+            <% } %>
+          </div>
+          
+          <div class="flex justify-between items-end">
+            <div class="flex flex-col gap-1 text-[12px] text-on-surface-variant">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[14px]">local_laundry_service</span>
+                <span><%= h.getServiceDetails(order.service_type).name %> <%= order.weight_kg ? `• ${Number(order.weight_kg).toFixed(1)} kg` : '' %></span>
+              </div>
+              <span><%= new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) %></span>
+            </div>
+            <div class="text-[15px] font-bold text-on-surface">
+              <% if (order.price_total) { %>
+                Rp <%= Number(order.price_total).toLocaleString('id-ID') %>
+              <% } else { %>
+                -
+              <% } %>
+            </div>
+          </div>
+        </a>
+      <% }); %>
+    <% } else { %>
+      <div class="p-8 flex flex-col items-center justify-center text-center">
+        <div class="w-12 h-12 bg-surface-variant rounded-full flex items-center justify-center mb-3">
+          <span class="material-symbols-outlined text-on-surface-variant text-[24px]">receipt_long</span>
+        </div>
+        <h3 class="text-[14px] font-semibold text-on-surface">Belum Ada Pesanan</h3>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Pagination -->
+<% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+    <div class="text-[13px] text-on-surface-variant font-medium">
+      Menampilkan <span class="text-on-surface font-semibold"><%= pagination.from %>–<%= pagination.to %></span> dari <span class="text-on-surface font-semibold"><%= pagination.total %></span>
+    </div>
+    
+    <div class="flex items-center gap-1">
+      <% if (pagination.currentPage > 1) { %>
+        <a href="?page=<%= pagination.currentPage - 1 %>&search=<%= typeof query !== 'undefined' && query.search ? query.search : '' %>&status=<%= typeof query !== 'undefined' && query.status ? query.status : '' %>&date=<%= typeof query !== 'undefined' && query.date ? query.date : '' %>" class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant/50 text-on-surface hover:bg-surface-variant transition-colors">
+          <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+        </a>
+      <% } %>
+      
+      <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+        <a href="?page=<%= i %>&search=<%= typeof query !== 'undefined' && query.search ? query.search : '' %>&status=<%= typeof query !== 'undefined' && query.status ? query.status : '' %>&date=<%= typeof query !== 'undefined' && query.date ? query.date : '' %>" class="w-9 h-9 flex items-center justify-center rounded-lg border <%= i === pagination.currentPage ? 'bg-primary border-primary text-on-primary font-bold' : 'border-outline-variant/50 text-on-surface hover:bg-surface-variant font-medium' %> transition-colors text-[14px]">
+          <%= i %>
+        </a>
+      <% } %>
+      
+      <% if (pagination.currentPage < pagination.totalPages) { %>
+        <a href="?page=<%= pagination.currentPage + 1 %>&search=<%= typeof query !== 'undefined' && query.search ? query.search : '' %>&status=<%= typeof query !== 'undefined' && query.status ? query.status : '' %>&date=<%= typeof query !== 'undefined' && query.date ? query.date : '' %>" class="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant/50 text-on-surface hover:bg-surface-variant transition-colors">
+          <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+        </a>
+      <% } %>
+    </div>
+  </div>
+<% } %>
+
+<!-- Desktop FAB -->
+<a href="/orders/create" class="hidden md:flex fixed bottom-8 right-8 w-14 h-14 bg-secondary text-on-secondary rounded-2xl shadow-[0_8px_20px_rgba(0,111,102,0.3)] items-center justify-center hover:bg-secondary/90 hover:-translate-y-1 transition-all z-40">
+  <span class="material-symbols-outlined text-[24px]">add</span>
+</a>
