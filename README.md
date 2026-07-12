@@ -41,8 +41,6 @@ Live demo: [laundry-management-system-saa-s.vercel.app](https://laundry-manageme
 
 ```
 Laundry-management-System-SaaS-/
-├── .agent/SKILL/         # Agent/skill configuration
-├── ERD PRD/              # Entity Relationship Diagram & Product Requirements Document
 ├── config/                # App and database configuration
 ├── controllers/           # Request handlers / business logic
 ├── middleware/             # Custom Express middleware (auth, error handling, etc.)
