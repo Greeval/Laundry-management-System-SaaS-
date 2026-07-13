@@ -1,20 +1,24 @@
 {
   "version": 2,
-  "builds": [
+  "regions": ["sin1"],
+  "headers": [
     {
-      "src": "public/**",
-      "use": "@vercel/static"
+      "source": "/css/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
-      "src": "app.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "views/**",
-          "models/**",
-          "public/**"
-        ]
-      }
+      "source": "/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ],
   "rewrites": [
