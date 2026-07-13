@@ -25,7 +25,7 @@ router.get('/register', authController.showRegister);
 // POST /register — register new tenant
 router.post('/register', authController.registerTenant);
 
-// POST /logout — destroy session
-router.post('/logout', authController.logout);
+// GET /logout — destroy session
+router.get('/logout', authController.logout);
 
 module.exports = router;
