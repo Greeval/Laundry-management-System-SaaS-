@@ -48,6 +48,9 @@ const authController = {
         return res.redirect('/login');
       }
 
+      // Fetch laundry settings and cache in session
+      const laundrySetting = await db.LaundrySetting.findOne({ where: { tenant_id: user.tenant_id } });
+
       // Create session
       req.session.user = {
         id: user.id,
@@ -56,6 +59,10 @@ const authController = {
         role: user.role,
         tenant_id: user.tenant_id,
       };
+      
+      if (laundrySetting) {
+        req.session.laundrySetting = laundrySetting;
+      }
 
       req.flash('success', `Selamat datang, ${user.name}!`);
       return res.redirect('/');

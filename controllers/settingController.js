@@ -72,6 +72,9 @@ const settingController = {
       }
 
       await settings.update(updateData);
+      
+      // Update session cache
+      req.session.laundrySetting = settings;
 
       req.flash('success', 'Pengaturan berhasil disimpan.');
       return res.redirect('/settings');

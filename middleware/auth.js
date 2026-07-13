@@ -33,17 +33,23 @@ function setLocals(req, res, next) {
   res.locals.user = req.session ? req.session.user : null;
   res.locals.currentPath = req.path;
   
-  if (req.session && req.session.user && req.session.user.tenant_id) {
-    const db = require('../models');
-    db.LaundrySetting.findOne({ where: { tenant_id: req.session.user.tenant_id } })
-      .then(setting => {
-        res.locals.laundrySetting = setting;
-        next();
-      })
-      .catch(err => {
-        console.error(err);
-        next();
-      });
+  if (req.session && req.session.user) {
+    if (req.session.laundrySetting) {
+      res.locals.laundrySetting = req.session.laundrySetting;
+      next();
+    } else {
+      const db = require('../models');
+      db.LaundrySetting.findOne({ where: { tenant_id: req.session.user.tenant_id } })
+        .then(setting => {
+          req.session.laundrySetting = setting;
+          res.locals.laundrySetting = setting;
+          next();
+        })
+        .catch(err => {
+          console.error(err);
+          next();
+        });
+    }
   } else {
     next();
   }
