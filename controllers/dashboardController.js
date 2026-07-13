@@ -15,65 +15,65 @@ const dashboardController = {
       const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
       const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
-      // Count orders created today
-      const todayOrders = await db.Order.count({
-        where: {
-          tenant_id: req.session.user.tenant_id,
-          createdAt: {
-            [Op.between]: [todayStart, todayEnd],
+      // Execute all queries in parallel for better performance
+      const [
+        todayOrders,
+        pendingPickup,
+        pendingPayment,
+        todayRevenueResult,
+        recentOrders,
+        pendingPayments
+      ] = await Promise.all([
+        // Count orders created today
+        db.Order.count({
+          where: {
+            tenant_id: req.session.user.tenant_id,
+            createdAt: { [Op.between]: [todayStart, todayEnd] },
           },
-        },
-      });
-
-      // Count orders pending pickup (not yet picked up)
-      const pendingPickup = await db.Order.count({
-        where: {
-          tenant_id: req.session.user.tenant_id,
-          status: {
-            [Op.in]: ['menunggu', 'diproses', 'selesai'],
+        }),
+        // Count orders pending pickup (not yet picked up)
+        db.Order.count({
+          where: {
+            tenant_id: req.session.user.tenant_id,
+            status: { [Op.in]: ['menunggu', 'diproses', 'selesai'] },
           },
-        },
-      });
-
-      // Count pending payments
-      const pendingPayment = await db.Payment.count({
-        where: { tenant_id: req.session.user.tenant_id, status: 'pending' },
-      });
-
-      // Calculate today's revenue (paid payments today)
-      const todayRevenueResult = await db.Payment.findAll({
-        where: { 
-          tenant_id: req.session.user.tenant_id,
-          status: 'paid',
-          paid_at: {
-            [Op.between]: [todayStart, todayEnd],
-          }
-        },
-        attributes: [
-          [db.sequelize.fn('SUM', db.sequelize.col('base_amount')), 'total'],
-        ],
-        raw: true,
-      });
-      const todayRevenue = todayRevenueResult[0] ? (parseFloat(todayRevenueResult[0].total) || 0) : 0;
-
-      // Get recent orders (latest 10)
-      const recentOrders = await db.Order.findAll({
-        where: { tenant_id: req.session.user.tenant_id },
-        include: [{ model: db.Customer, as: 'customer' }],
-        order: [['createdAt', 'DESC']],
-        limit: 10,
-      });
-
-      // Get pending payments with order and customer info
-      const pendingPayments = await db.Payment.findAll({
-        where: { tenant_id: req.session.user.tenant_id, status: 'pending' },
-        include: [{
-          model: db.Order,
-          as: 'order',
+        }),
+        // Count pending payments
+        db.Payment.count({
+          where: { tenant_id: req.session.user.tenant_id, status: 'pending' },
+        }),
+        // Calculate today's revenue (paid payments today)
+        db.Payment.findAll({
+          where: { 
+            tenant_id: req.session.user.tenant_id,
+            status: 'paid',
+            paid_at: { [Op.between]: [todayStart, todayEnd] }
+          },
+          attributes: [
+            [db.sequelize.fn('SUM', db.sequelize.col('base_amount')), 'total'],
+          ],
+          raw: true,
+        }),
+        // Get recent orders (latest 10)
+        db.Order.findAll({
+          where: { tenant_id: req.session.user.tenant_id },
           include: [{ model: db.Customer, as: 'customer' }],
-        }],
-        order: [[{ model: db.Order, as: 'order' }, 'createdAt', 'DESC']],
-      });
+          order: [['createdAt', 'DESC']],
+          limit: 10,
+        }),
+        // Get pending payments with order and customer info
+        db.Payment.findAll({
+          where: { tenant_id: req.session.user.tenant_id, status: 'pending' },
+          include: [{
+            model: db.Order,
+            as: 'order',
+            include: [{ model: db.Customer, as: 'customer' }],
+          }],
+          order: [[{ model: db.Order, as: 'order' }, 'createdAt', 'DESC']],
+        })
+      ]);
+
+      const todayRevenue = todayRevenueResult[0] ? (parseFloat(todayRevenueResult[0].total) || 0) : 0;
 
       res.render('dashboard/index', {
         title: 'Dashboard',

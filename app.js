@@ -106,8 +106,7 @@ const staffRoutes = require('./routes/staff');
 const trackingRoutes = require('./routes/tracking');
 
 // Mount Routes
-const autoCleanupOldOrders = require('./middleware/cleanup');
-app.use(autoCleanupOldOrders);
+// Removed autoCleanupOldOrders middleware as it exhausts serverless DB connections
 
 // Error interception middleware for DB failures
 app.use((req, res, next) => {
@@ -139,18 +138,12 @@ app.use('/track', trackingRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-// Start server
-db.sequelize.sync().then(() => {
-    // Only listen if run directly (not imported by Vercel)
-    if (require.main === module) {
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    }
-}).catch(err => {
-    startupError = err;
-    console.error('Unable to connect to the database:', err);
-});
+// Start server (Only listen if run directly, not imported by Vercel)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
 
 } catch (e) {
     const express = require('express');
